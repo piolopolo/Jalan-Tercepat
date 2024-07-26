@@ -11,8 +11,6 @@ public class Tercepat {
         }
     }
 
-    // Find the shortest path from start (startX, startY) to end (endX, endY) in the
-    // grid
     public static List<String> findShortestPath(char[][] grid, int startX, int startY, int endX, int endY) {
         int rows = grid.length;
         int cols = grid[0].length;
@@ -23,10 +21,9 @@ public class Tercepat {
         queue.add(new Node(startX, startY));
         visited[startX][startY] = true;
 
-        // Directions for movement: up, down, left, right
         int[] dx = { -1, 1, 0, 0 };
         int[] dy = { 0, 0, -1, 1 };
-        String[] directions = { "UP", "DOWN", "LEFT", "RIGHT" };
+        String[] directions = { "atas", "bawah", "kiri", "kanan" };
 
         while (!queue.isEmpty()) {
             Node node = queue.poll();
@@ -58,17 +55,15 @@ public class Tercepat {
             }
         }
 
-        return null; // Path not found
+        return null;
     }
 
-    // Check if the move is valid
     private static boolean isValid(char[][] grid, int x, int y, boolean[][] visited) {
         int rows = grid.length;
         int cols = grid[0].length;
         return x >= 0 && x < rows && y >= 0 && y < cols && grid[x][y] != '#' && !visited[x][y];
     }
 
-    // Get the direction of movement
     private static int getDirection(int px, int py, int cx, int cy, int[] dx, int[] dy) {
         for (int i = 0; i < 4; i++) {
             if (px + dx[i] == cx && py + dy[i] == cy) {
@@ -110,11 +105,21 @@ public class Tercepat {
         List<String> path = findShortestPath(grid, startX, startY, endX, endY);
 
         if (path != null) {
-            for (String step : path) {
-                System.out.println(step);
+            int count = 1;
+            String prevStep = path.get(0);
+            for (int i = 1; i < path.size(); i++) {
+                if (path.get(i).equals(prevStep)) {
+                    count++;
+                } else {
+                    System.out.println(count + " " + prevStep);
+                    prevStep = path.get(i);
+                    count = 1;
+                }
             }
+            System.out.println(count + " " + prevStep);
+            System.out.println(path.size() + " langkah");
         } else {
-            System.out.println("No path found");
+            System.out.println("Tidak ada jalan");
         }
 
         scanner.close();
